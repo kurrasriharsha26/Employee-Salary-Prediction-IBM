@@ -30,7 +30,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("/content/images.jpeg");
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX_LktJLE6AFip2zAE7Or5EUodLaww-7BsrQ&s");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
