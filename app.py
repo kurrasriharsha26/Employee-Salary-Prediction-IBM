@@ -16,8 +16,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ✅ Load model using pickle for better compatibility
-with open("adult_income_model_compressed.pkl", "rb") as f:
-    model = pickle.load(f)
+import joblib
+
+model = joblib.load("adult_income_model_compressed.pkl")
+
 
 # Streamlit UI Setup
 st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
