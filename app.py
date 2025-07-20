@@ -2,6 +2,19 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+# Add background image (replace URL if you want)
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-image: url("https://t4.ftcdn.net/jpg/03/08/69/75/360_F_308697506_9dsBYHXm9FwuW0qcEqimAEXUvzTwfzwe.jpg");
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Load the trained model and components
 model_data = joblib.load("salary_predictor.pkl")
