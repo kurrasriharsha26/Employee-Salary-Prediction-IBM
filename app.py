@@ -17,7 +17,7 @@ occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "
 
 # Page setup
 st.set_page_config(page_title="AI Salary Predictor", layout="wide")
-st.markdown("<h1 style='text-align: center;'>💼 Employee Salary Predictor</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>💵 Employee Salary Predictor</h1>", unsafe_allow_html=True)
 st.write("### Predict whether an employee earns >50K or <=50K")
 
 left, center, right = st.columns([1.2, 2.5, 1.5])
