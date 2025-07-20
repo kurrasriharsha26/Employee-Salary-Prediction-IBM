@@ -206,7 +206,7 @@ plt.title("Feature Importance - Best Model")
 plt.show()
 
 # Commented out IPython magic to ensure Python compatibility.
- %%writefile app.py
+# %%writefile app.py
  import streamlit as st
  import joblib
  import numpy as np
