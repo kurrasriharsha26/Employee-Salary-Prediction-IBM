@@ -356,7 +356,7 @@ plt.show()
 from pyngrok import ngrok
 ngrok.kill()
 
-!streamlit run app.py &>/dev/null &
+#!streamlit run app.py &>/dev/null &
 
 public_url = ngrok.connect("http://localhost:8501")
 print("✅ App is live at:", public_url)
