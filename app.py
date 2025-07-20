@@ -23,6 +23,11 @@ st.write("### Predict whether an employee earns >50K or <=50K")
 left, center, right = st.columns([1.2, 2.5, 1.5])
 
 with left:
+    st.image(
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+        caption="Office environment",
+        use_column_width=True
+    )
     st.markdown("### 🔍 Model Details")
     st.markdown("""
     - Dataset: Custom
