@@ -136,7 +136,7 @@ st.markdown("---")
 st.caption("🚀 Created with ❤️ using Streamlit • Powered by Machine Learning")
 
 # Remove any existing tunnels
-from pyngrok import ngrok
+#from pyngrok import ngrok
 ngrok.kill()
 
 # Start tunnel
