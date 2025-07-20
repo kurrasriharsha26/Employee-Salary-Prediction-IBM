@@ -75,7 +75,7 @@ employee-salary-prediction/
 ├── assets/                 
 └── README.md               
 🖼️ Sample Screenshots
-Form Input	Prediction + Graphs
+Form Input Prediction + Graphs
 
 
 
