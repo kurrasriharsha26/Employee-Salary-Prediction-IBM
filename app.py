@@ -89,13 +89,14 @@ with center:
 
         submitted = st.form_submit_button("🔎 Predict Salary")
 
-        if submitted:
-            input_df = pd.DataFrame({
-            gender_dict = {"Male": 1, "Female": 0}
-            education_dict = {"10th": 6, "12th": 8, "Bachelors": 13, "Masters": 14, "PhD": 16}
-            occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
-            country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
-            })
+        if submit_button:
+    input_df = pd.DataFrame({
+        "Age": [age],
+        "Gender": [gender],
+        "Education Level": [education_level],
+        "Job Title": [job_title],
+        "Years of Experience": [years_of_experience]
+    })
 
             # Static values for simplicity
             marital_status = 2
