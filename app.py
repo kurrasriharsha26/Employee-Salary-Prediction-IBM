@@ -128,7 +128,7 @@ pipeline = Pipeline(steps=[
 ])
 
 # Make prediction using the pipeline
-prediction = pipeline.predict(input_data)[0]
+prediction = pipeline.predict(input_df)[0]
 
 # Display prediction results
 label = ">50K" if prediction == 1 else "<=50K"
