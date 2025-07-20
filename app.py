@@ -15,6 +15,9 @@ import pickle  # ✅ Replaced joblib with pickle
 import numpy as np
 import matplotlib.pyplot as plt
 import joblib
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.compose import ColumnTransformer
+
 
 model_data = joblib.load("salary_predictor.pkl")
 model = model_data["model"]
