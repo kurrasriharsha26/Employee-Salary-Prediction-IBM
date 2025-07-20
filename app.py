@@ -125,7 +125,6 @@ preprocessor = ColumnTransformer(transformers=[
     ('cat', OneHotEncoder(handle_unknown="ignore"), categorical_cols)
 ])
 remainder='passthrough'
-)
 
 # Rebuild the pipeline with the preprocessor and your loaded model
 pipeline = Pipeline(steps=[
