@@ -208,10 +208,10 @@ plt.show()
 # Commented out IPython magic to ensure Python compatibility.
 # %%writefile app.py
  import streamlit as st
- import joblib
- import numpy as np
- import matplotlib.pyplot as plt
- 
+import pandas as pd
+import numpy as np
+import joblib
+
 # # Load trained model
  model = joblib.load("final_salary_model.pkl")
  
