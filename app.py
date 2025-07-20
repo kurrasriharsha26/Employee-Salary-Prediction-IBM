@@ -126,13 +126,18 @@ pipeline = Pipeline(steps=[
     ('preprocessor', preprocessor),
     ('model', model)
 ])
-          prediction = pipeline.predict(input_df)[0]
-            label = ">50K" if prediction == 1 else "<=50K"
-            st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
 
-            monthly_salary = 60000 if prediction == 1 else 25000
-            st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
-            st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
+# Make prediction using the pipeline
+prediction = pipeline.predict(input_df)[0]
+
+# Display prediction results
+label = ">50K" if prediction == 1 else "<=50K"
+st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
+
+monthly_salary = 60000 if prediction == 1 else 25000
+st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
+st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
+
 
 with right:
     st.markdown("### 📊 Visual Insights")
