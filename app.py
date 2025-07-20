@@ -126,8 +126,7 @@ pipeline = Pipeline(steps=[
     ('preprocessor', preprocessor),
     ('model', model)
 ])
-
-            prediction = pipeline.predict(input_df)[0]
+          prediction = pipeline.predict(input_df)[0]
             label = ">50K" if prediction == 1 else "<=50K"
             st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
 
