@@ -26,7 +26,7 @@ with left:
     st.image(
         "https://thumbs.dreamstime.com/b/cloud-computing-technology-internet-storage-network-concept-114143142.jpg",
         caption="Technology",
-        use_column_width=True
+        use_container_width=True
     )
     st.markdown("### 🔍 Model Details")
     st.markdown("""
