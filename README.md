@@ -77,9 +77,7 @@ employee-salary-prediction/
 🖼️ Sample Screenshots
 Form Input Prediction + Graphs
 <img width="1280" height="721" alt="image" src="https://github.com/user-attachments/assets/2a4f1545-b04e-45ee-a3c2-b4add597a8c4" />
-
-
-
+<img width="1280" height="721" alt="image" src="https://github.com/user-attachments/assets/a269f126-fea5-4f8f-a717-c5b542473f24" />
 
 
 
