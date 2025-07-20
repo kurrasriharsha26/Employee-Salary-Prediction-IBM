@@ -89,7 +89,8 @@ Form Input Prediction + Graphs
 ✅ Docker (advanced users)
 🙋‍♂️ Author
 Developed by [Kurra Sriharsha]
-🔗 LinkedIn
+🔗 LinkedIn:
+www.linkedin.com/in/kurra-sri-harsha26
 📧 Email: kurrasriharsha49@gmail.com
 ⭐️ Show Your Support
 
