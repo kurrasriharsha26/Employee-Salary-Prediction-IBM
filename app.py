@@ -66,7 +66,7 @@ with left:
         - Capital Gain/Loss, Hours/Week
         - Marital Status, Relationship, Country
     """)
-    st.image("/bin/download.jpeg", width=120)
+    #st.image("/bin/download.jpeg", width=120)
     st.markdown("---")
     st.markdown("📌 **Suggestion:** Upskill, take leadership roles, and invest in higher education.")
 
