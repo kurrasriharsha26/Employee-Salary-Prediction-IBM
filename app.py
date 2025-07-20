@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # ✅ Load model using pickle for better compatibility
-with open("adult_income_model_v2.pkl", "rb") as f:
+with open("adult_income_model_compressed.pkl", "rb") as f:
     model = pickle.load(f)
 
 # Streamlit UI Setup
