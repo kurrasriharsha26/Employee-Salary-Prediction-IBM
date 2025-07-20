@@ -104,6 +104,28 @@ with center:
                                   marital_status, occupation_dict[occupation], relationship,
                                   race, gender_dict[gender_input], capital_gain, capital_loss,
                                   hours, country_dict[native_country], extra_feature]])
+            from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+# Define your categorical and numerical columns
+categorical_cols = ['workclass', 'education', 'marital-status', 'occupation', 
+                    'relationship', 'race', 'sex', 'native-country']
+numerical_cols = ['age', 'hours-per-week']
+
+# Create a preprocessing transformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('cat', OneHotEncoder(handle_unknown="ignore"), categorical_cols)
+    ],
+    remainder='passthrough'
+)
+
+# Rebuild the pipeline with the preprocessor and your loaded model
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('model', model)
+])
 
             prediction = pipeline.predict(input_df)[0]
             label = ">50K" if prediction == 1 else "<=50K"
