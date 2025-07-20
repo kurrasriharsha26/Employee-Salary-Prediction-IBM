@@ -94,9 +94,11 @@ Developed by [Kurra Sriharsha]
 🔗 LinkedIn
 📧 Email: kurrasriharsha49@gmail.com
 ⭐️ Show Your Support
+
 If you like this project, consider:
 Giving a ⭐️ on GitHub
 Sharing it with friends
 Forking it and building your own improvements!
+
 📄 License
 This project is for educational and internship purposes. All rights reserved by the author.
