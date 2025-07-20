@@ -137,7 +137,7 @@ pipeline = Pipeline(steps=[
 
 # Make prediction using the pipeline
 input_scaled = scaler.transform(input_df)
-    predicted_salary = model.predict(input_scaled)[0]
+predicted_salary = model.predict(input_scaled)[0]
 
 # Display prediction results
 label = ">50K" if prediction == 1 else "<=50K"
