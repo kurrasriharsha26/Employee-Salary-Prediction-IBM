@@ -105,7 +105,7 @@ with center:
                                   race, gender_dict[gender_input], capital_gain, capital_loss,
                                   hours, country_dict[native_country], extra_feature]])
 
-            prediction = model.predict(features)[0]
+            prediction = pipeline.predict(input_df)[0]
             label = ">50K" if prediction == 1 else "<=50K"
             st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
 
