@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import joblib
 
-model_data = joblib.load("adult_income_model_compressed.pkl")
+model_data = joblib.load("salary_predictor.pkl")
 model = model_data["model"]
 label_encoders = model_data["label_encoders"]
 scaler = model_data["scaler"]
