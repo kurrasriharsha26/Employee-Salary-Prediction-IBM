@@ -11,12 +11,15 @@ Original file is located at
 # Commented out IPython magic to ensure Python compatibility.
 # %%writefile app.py
 import streamlit as st
-import joblib
+import pickle  # ✅ Replaced joblib with pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-model = joblib.load("adult_income_model_compressed.pkl")
+# ✅ Load model using pickle for better compatibility
+with open("adult_income_model_v2.pkl", "rb") as f:
+    model = pickle.load(f)
 
+# Streamlit UI Setup
 st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
 
 st.markdown(
@@ -85,6 +88,7 @@ with center:
             occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
             country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
 
+            # Static values for simplicity
             marital_status = 2
             relationship = 1
             race = 1
@@ -127,12 +131,10 @@ with right:
 st.markdown("---")
 st.caption("🚀 Created with ❤️ using Streamlit • Powered by Machine Learning")
 
-#!pip install streamlit pyngrok
-
+# Remove any existing tunnels
 from pyngrok import ngrok
 ngrok.kill()
 
-#!streamlit run app.py &>/dev/null &
-
+# Start tunnel
 public_url = ngrok.connect("http://localhost:8501")
 print("✅ App is live at:", public_url)
