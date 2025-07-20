@@ -2,6 +2,20 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import streamlit as st
+
+st.markdown(
+    """
+    <style>
+    /* Main background color */
+    .stApp {
+        background-color: #F0F8FF;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 
 # Load the trained model and components
