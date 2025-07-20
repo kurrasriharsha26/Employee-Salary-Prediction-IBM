@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 model_data = joblib.load("salary_predictor.pkl")
 model = model_data["model"]
 scaler = model_data["scaler"]
-feature_names = model_data["feature_names"]
+feature_names = model_data["feature_names"]  # assumed this is a list of column names
 
 # Define encoding mappings
 gender_dict = {"Male": 1, "Female": 0}
@@ -56,6 +56,7 @@ with center:
 
 # Process input and predict
 if submitted:
+    # These are fixed or default values used during initial training
     marital_status = 2
     relationship = 1
     race = 1
@@ -63,12 +64,14 @@ if submitted:
     workclass = 4
     fnlwgt = 200000
 
+    # Create feature array
     features = np.array([[age, workclass, fnlwgt, education_dict[education],
                           marital_status, occupation_dict[occupation], relationship,
                           race, gender_dict[gender_input], capital_gain, capital_loss,
                           hours, country_dict[native_country], extra_feature]])
 
-    input_df = pd.DataFrame(features)
+    # ✅ Fix: make sure input DataFrame has same columns as during training
+    input_df = pd.DataFrame(features, columns=feature_names)
 
     # Scale and predict
     input_scaled = scaler.transform(input_df)
