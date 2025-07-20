@@ -124,8 +124,7 @@ preprocessor = ColumnTransformer(transformers=[
     ('num', StandardScaler(), numerical_cols),
     ('cat', OneHotEncoder(handle_unknown="ignore"), categorical_cols)
 ])
-
-    remainder='passthrough'
+   remainder='passthrough'
 )
 
 # Rebuild the pipeline with the preprocessor and your loaded model
