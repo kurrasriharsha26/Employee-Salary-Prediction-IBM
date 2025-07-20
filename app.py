@@ -15,7 +15,7 @@ import joblib
 import numpy as np
 import matplotlib.pyplot as plt
 
-model = joblib.load("final_salary_model.pkl")
+model = joblib.load("adult_income_model_compressed.pkl")
 
 st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
 
