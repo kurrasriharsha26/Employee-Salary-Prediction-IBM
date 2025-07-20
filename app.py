@@ -25,7 +25,7 @@ left, center, right = st.columns([1.2, 2.5, 1.5])
 with left:
     st.image(
         "https://thumbs.dreamstime.com/b/cloud-computing-technology-internet-storage-network-concept-114143142.jpg",
-        caption="Office environment",
+        caption="Technology",
         use_column_width=True
     )
     st.markdown("### 🔍 Model Details")
