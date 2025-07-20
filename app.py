@@ -14,6 +14,7 @@ import streamlit as st
 import pickle  # ✅ Replaced joblib with pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import joblib
 
 model_data = joblib.load("adult_income_model_compressed.pkl")
 model = model_data["model"]
