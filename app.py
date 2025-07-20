@@ -109,15 +109,22 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
 # Define your categorical and numerical columns
-categorical_cols = ['workclass', 'education', 'marital-status', 'occupation', 
-                    'relationship', 'race', 'sex', 'native-country']
-numerical_cols = ['age', 'hours-per-week']
+# Define your feature column categories
+categorical_cols = [
+    "workclass", "education", "marital-status", "occupation",
+    "relationship", "race", "sex", "native-country"
+]
 
-# Create a preprocessing transformer
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('cat', OneHotEncoder(handle_unknown="ignore"), categorical_cols)
-    ],
+numerical_cols = [
+    "age", "education-num", "capital-gain", "capital-loss", "hours-per-week"
+]
+
+# Create preprocessor
+preprocessor = ColumnTransformer(transformers=[
+    ('num', StandardScaler(), numerical_cols),
+    ('cat', OneHotEncoder(handle_unknown="ignore"), categorical_cols)
+])
+
     remainder='passthrough'
 )
 
