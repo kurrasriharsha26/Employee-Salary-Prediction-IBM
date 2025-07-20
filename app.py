@@ -212,150 +212,128 @@ import pandas as pd
 import numpy as np
 import joblib
 
-# # Load trained model
- model = joblib.load("final_salary_model.pkl")
- 
-# # Page setup
- st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
- 
-# # Background CSS
- st.markdown(
-   """
+# Load trained model
+model = joblib.load("final_salary_model.pkl")
+
+# Page setup
+st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
+
+# Background CSS
+st.markdown(
+    """
     <style>
     .stApp {
-        background-image: url("/content/images.jpeg");
+        background-image: url("images.jpeg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
-     }
-     .main {
-         background-color: rgba(255,255,255,0.9);
-         padding: 2rem;
+    }
+    .main {
+        background-color: rgba(255,255,255,0.9);
+        padding: 2rem;
         border-radius: 10px;
     }
     .title-style {
         font-size: 42px;
         font-weight: bold;
         color: #2c3e50;
-     }
+    }
     </style>
-#     """,
+    """,
     unsafe_allow_html=True
- )
- 
- st.markdown("<div class='title-style'>💼Employee Salary Predictor</div>", unsafe_allow_html=True)
- st.write("### Predict whether an employee earns >50K or <=50K using ML (based on Indian census-style data)")
- 
-# # Layout columns
- left, center, right = st.columns([1.2, 2.5, 1.5])
- 
-# # ------------ LEFT PANEL ------------
- with left:
+)
+
+# Title
+st.markdown("<div class='title-style'>💼 Employee Salary Predictor</div>", unsafe_allow_html=True)
+st.write("### Predict whether an employee earns >50K or <=50K using ML (based on Indian census-style data)")
+
+# Layout columns
+left, center, right = st.columns([1.2, 2.5, 1.5])
+
+# ------------ LEFT PANEL ------------
+with left:
     st.markdown("### 🔍 Model Details")
     st.markdown("""
-    - Dataset: Modeled after Indian Census Income Data
-    - Algorithm: Random Forest Classifier
-     - Accuracy: ~88%
-    - Input Features Used:
-        - Age, Gender, Education, Occupation
-         - Capital Gain/Loss, Hours/Week
-        - Marital Status, Relationship, Country
-     """)
-   st.image("/bin/download.jpeg", width=120)
-   st.markdown("---")
+    - Dataset: Modeled after Indian Census Income Data  
+    - Algorithm: Random Forest Classifier  
+    - Accuracy: ~88%  
+    - Input Features Used:  
+        - Age, Gender, Education, Occupation  
+        - Capital Gain/Loss, Hours/Week  
+        - Marital Status, Relationship, Country  
+    """)
+    st.image("download.jpeg", width=120)
+    st.markdown("---")
     st.markdown("📌 **Suggestion:** Upskill, take leadership roles, and invest in higher education.")
 
-# # ------------ CENTER PANEL (FORM) ------------
- with center:
-   with st.form("salary_form"):
+# ------------ CENTER PANEL (FORM) ------------
+with center:
+    with st.form("salary_form"):
         st.markdown("## 👤 Employee Information")
 
         name = st.text_input("Employee Name")
-         age = st.slider("Age", 18, 65, 30)
-         gender_input = st.selectbox("Gender", ["Male", "Female"])
+        age = st.slider("Age", 18, 65, 30)
+        gender_input = st.selectbox("Gender", ["Male", "Female"])
         education = st.selectbox("Education", ["10th", "12th", "Bachelors", "Masters", "PhD"])
         occupation = st.selectbox("Occupation", ["Clerical", "Technical", "Managerial", "Sales", "Other"])
-         hours = st.slider("Hours/Week", 10, 80, 40)
-         capital_gain = st.number_input("Capital Gain", 0, 100000, 0)
-         capital_loss = st.number_input("Capital Loss", 0, 100000, 0)
-         native_country = st.selectbox("Native Country", ["India", "USA", "Canada", "Germany", "Other"])
- 
-       submitted = st.form_submit_button("🔎 Predict Salary")
- 
-         if submitted:
-            # Encode categorical inputs
-             gender_dict = {"Male": 1, "Female": 0}
-            education_dict = {"10th": 6, "12th": 8, "Bachelors": 13, "Masters": 14, "PhD": 16}
-             occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
-             country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
+        hours = st.slider("Hours/Week", 10, 80, 40)
+        capital_gain = st.number_input("Capital Gain", 0, 100000, 0)
+        capital_loss = st.number_input("Capital Loss", 0, 100000, 0)
+        native_country = st.selectbox("Native Country", ["India", "USA", "Canada", "Germany", "Other"])
 
-             # Dummy/fixed values for non-user inputs
+        submitted = st.form_submit_button("🔎 Predict Salary")
+
+        if submitted:
+            # Encode categorical inputs
+            gender_dict = {"Male": 1, "Female": 0}
+            education_dict = {"10th": 6, "12th": 8, "Bachelors": 13, "Masters": 14, "PhD": 16}
+            occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
+            country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
+
+            # Dummy values for non-user inputs
             marital_status = 2
             relationship = 1
-           race = 1
-           extra_feature = 1
-             workclass = 4
-             fnlwgt = 200000
-             features = np.array([[
-                 age,
-                 workclass,
-                 fnlwgt,
-                 education_dict[education],
-                 marital_status,
-                 occupation_dict[occupation],
-                 relationship,
-                 race,
-                 gender_dict[gender_input],
-                 capital_gain,
-                 capital_loss,
-                 hours,
-                 country_dict[native_country],
-                 extra_feature
-             ]])
- 
-             prediction = model.predict(features)[0]
-             label = ">50K" if prediction == 1 else "<=50K"
-             st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
- 
-             # Estimated Monthly Salary (mock logic)
-             monthly_salary = 60000 if prediction == 1 else 25000
-             st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
-            st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
- 
-# # ------------ RIGHT PANEL (CHARTS) ------------
- with right:
-     st.markdown("### 📊 Visual Insights")
- 
-    if submitted:
-         # Salary trend chart
-         salary_trend = [monthly_salary + np.random.randint(-2000, 2000) for _ in range(6)]
-         st.markdown("#### 📈 6-Month Salary Projection")
-         st.line_chart(salary_trend)
+            race = 1
+            extra_feature = 1
+            workclass = 4
+            fnlwgt = 200000
 
-         Bar Chart: Occupation-wise Salary
-         st.markdown("#### 💼 Avg. Monthly Salary by Role")
-       st.bar_chart({
-             "Clerical": 22000,
-             "Technical": 35000,
-             "Managerial": 65000,
-             "Sales": 30000,
-             "Other": 28000
+            features = np.array([[age, workclass, fnlwgt,
+                                  education_dict[education], marital_status,
+                                  occupation_dict[occupation], relationship,
+                                  race, gender_dict[gender_input],
+                                  capital_gain, capital_loss, hours,
+                                  country_dict[native_country], extra_feature]])
+
+            prediction = model.predict(features)[0]
+            label = ">50K" if prediction == 1 else "<=50K"
+            st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
+
+            monthly_salary = 60000 if prediction == 1 else 25000
+            st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
+            st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
+
+# ------------ RIGHT PANEL (CHARTS) ------------
+with right:
+    st.markdown("### 📊 Visual Insights")
+    if submitted:
+        # Salary trend chart
+        salary_trend = [monthly_salary + np.random.randint(-2000, 2000) for _ in range(6)]
+        st.markdown("#### 📈 6-Month Salary Projection")
+        st.line_chart(salary_trend)
+
+        # Bar chart for occupation salary
+        st.markdown("#### 💼 Avg. Monthly Salary by Role")
+        st.bar_chart({
+            "Clerical": 22000,
+            "Technical": 35000,
+            "Managerial": 65000,
+            "Sales": 30000,
+            "Other": 28000
         })
     else:
         st.info("👈 Fill the form to unlock salary graphs")
 
-# # ------------ Footer ------------
+# ------------ FOOTER ------------
 st.markdown("---")
 st.caption("🚀 Created with ❤️ using Streamlit • Powered by Machine Learning")
-
-
-
-#!pip install streamlit pyngrok
-
-from pyngrok import ngrok
-ngrok.kill()
-
-#!streamlit run app.py &>/dev/null &
-
-public_url = ngrok.connect("http://localhost:8501")
-print("✅ App is live at:", public_url)
