@@ -68,7 +68,7 @@ if submitted:
                           race, gender_dict[gender_input], capital_gain, capital_loss,
                           hours, country_dict[native_country], extra_feature]])
 
-    input_df = pd.DataFrame(features, columns=feature_names)
+    input_df = pd.DataFrame(features)
 
     # Scale and predict
     input_scaled = scaler.transform(input_df)
