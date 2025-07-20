@@ -11,155 +11,71 @@ Original file is located at
 # Commented out IPython magic to ensure Python compatibility.
 # %%writefile app.py
 import streamlit as st
-import pickle  # ✅ Replaced joblib with pickle
+import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import joblib
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler
 
-
+# Load the model
 model_data = joblib.load("salary_predictor.pkl")
 model = model_data["model"]
-label_encoders = model_data["label_encoders"]
 scaler = model_data["scaler"]
 feature_names = model_data["feature_names"]
 
+# Streamlit UI
+st.set_page_config(page_title="AI Salary Predictor", layout="wide")
 
-# Streamlit UI Setup
-st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
+st.title("💼 Employee Salary Predictor")
+st.write("Predict whether an employee earns >50K or <=50K")
 
-st.markdown(
-    """
-    <style>
-    .stApp {
-        #background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX_LktJLE6AFip2zAE7Or5EUodLaww-7BsrQ&s");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }
-    .main {
-        background-color: rgba(255,255,255,0.9);
-        padding: 2rem;
-        border-radius: 10px;
-    }
-    .title-style {
-        font-size: 42px;
-        font-weight: bold;
-        color: #2c3e50;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Input form
+with st.form("form"):
+    name = st.text_input("Employee Name")
+    age = st.slider("Age", 18, 65, 30)
+    gender_input = st.selectbox("Gender", ["Male", "Female"])
+    education = st.selectbox("Education", ["10th", "12th", "Bachelors", "Masters", "PhD"])
+    occupation = st.selectbox("Occupation", ["Clerical", "Technical", "Managerial", "Sales", "Other"])
+    hours = st.slider("Hours/Week", 10, 80, 40)
+    capital_gain = st.number_input("Capital Gain", 0, 100000, 0)
+    capital_loss = st.number_input("Capital Loss", 0, 100000, 0)
+    native_country = st.selectbox("Native Country", ["India", "USA", "Canada", "Germany", "Other"])
+    submit = st.form_submit_button("🔎 Predict Salary")
 
-st.markdown("<div class='title-style'>💼Employee Salary Predictor</div>", unsafe_allow_html=True)
-st.write("### Predict whether an employee earns >50K or <=50K using ML (based on Indian census-style data)")
+    if submit:
+        gender_dict = {"Male": 1, "Female": 0}
+        education_dict = {"10th": 6, "12th": 8, "Bachelors": 13, "Masters": 14, "PhD": 16}
+        occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
+        country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
 
-left, center, right = st.columns([1.2, 2.5, 1.5])
+        # Fixed/static features
+        marital_status = 2
+        relationship = 1
+        race = 1
+        extra_feature = 1
+        workclass = 4
+        fnlwgt = 200000
 
-with left:
-    st.markdown("### 🔍 Model Details")
-    st.markdown("""
-    - Dataset: Modeled after Indian Census Income Data
-    - Algorithm: Random Forest Classifier
-    - Accuracy: ~88%
-    - Input Features Used:
-        - Age, Gender, Education, Occupation
-        - Capital Gain/Loss, Hours/Week
-        - Marital Status, Relationship, Country
-    """)
-    #st.image("/bin/download.jpeg", width=120)
-    st.markdown("---")
-    st.markdown("📌 **Suggestion:** Upskill, take leadership roles, and invest in higher education.")
+        features = np.array([[age, workclass, fnlwgt, education_dict[education], marital_status,
+                              occupation_dict[occupation], relationship, race, gender_dict[gender_input],
+                              capital_gain, capital_loss, hours, country_dict[native_country], extra_feature]])
 
-with center:
-    with st.form("salary_form"):
-        st.markdown("## 👤 Employee Information")
+        input_df = pd.DataFrame(features, columns=feature_names)
+        scaled_input = scaler.transform(input_df)
+        prediction = model.predict(scaled_input)[0]
 
-        name = st.text_input("Employee Name")
-        age = st.slider("Age", 18, 65, 30)
-        gender_input = st.selectbox("Gender", ["Male", "Female"])
-        education = st.selectbox("Education", ["10th", "12th", "Bachelors", "Masters", "PhD"])
-        occupation = st.selectbox("Occupation", ["Clerical", "Technical", "Managerial", "Sales", "Other"])
-        hours = st.slider("Hours/Week", 10, 80, 40)
-        capital_gain = st.number_input("Capital Gain", 0, 100000, 0)
-        capital_loss = st.number_input("Capital Loss", 0, 100000, 0)
-        native_country = st.selectbox("Native Country", ["India", "USA", "Canada", "Germany", "Other"])
+        label = ">50K" if prediction == 1 else "<=50K"
+        st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
 
-        submitted = st.form_submit_button("🔎 Predict Salary")
+        monthly_salary = 60000 if prediction == 1 else 25000
+        st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
+        st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
 
-        if submit_button:
-    input_df = pd.DataFrame({
-        "Age": [age],
-        "Gender": [gender],
-        "Education Level": [education_level],
-        "Job Title": [job_title],
-        "Years of Experience": [years_of_experience]
-    })
-
-            # Static values for simplicity
-            marital_status = 2
-            relationship = 1
-            race = 1
-            extra_feature = 1
-            workclass = 4
-            fnlwgt = 200000
-
-            features = np.array([[age, workclass, fnlwgt, education_dict[education],
-                                  marital_status, occupation_dict[occupation], relationship,
-                                  race, gender_dict[gender_input], capital_gain, capital_loss,
-                                  hours, country_dict[native_country], extra_feature]])
-            from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-
-# Define your categorical and numerical columns
-# Define your feature column categories
-categorical_cols = [
-    "workclass", "education", "marital-status", "occupation",
-    "relationship", "race", "sex", "native-country"
-]
-
-numerical_cols = [
-    "age", "education-num", "capital-gain", "capital-loss", "hours-per-week"
-]
-
-# Create preprocessor
-preprocessor = ColumnTransformer(transformers=[
-    ('num', StandardScaler(), numerical_cols),
-    ('cat', OneHotEncoder(handle_unknown="ignore"), categorical_cols)
-])
-remainder='passthrough'
-
-# Rebuild the pipeline with the preprocessor and your loaded model
-pipeline = Pipeline(steps=[
-    ('preprocessor', preprocessor),
-    ('model', model)
-])
-
-# Make prediction using the pipeline
-input_scaled = scaler.transform(input_df)
-predicted_salary = model.predict(input_scaled)[0]
-
-# Display prediction results
-label = ">50K" if prediction == 1 else "<=50K"
-st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
-
-monthly_salary = 60000 if prediction == 1 else 25000
-st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
-st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
-
-
-with right:
-    st.markdown("### 📊 Visual Insights")
-
-    if submitted:
+        # Charts
+        st.subheader("📈 6-Month Salary Projection")
         salary_trend = [monthly_salary + np.random.randint(-2000, 2000) for _ in range(6)]
-        st.markdown("#### 📈 6-Month Salary Projection")
         st.line_chart(salary_trend)
 
-        st.markdown("#### 💼 Avg. Monthly Salary by Role")
+        st.subheader("💼 Avg. Monthly Salary by Role")
         st.bar_chart({
             "Clerical": 22000,
             "Technical": 35000,
@@ -167,16 +83,3 @@ with right:
             "Sales": 30000,
             "Other": 28000
         })
-    else:
-        st.info("👈 Fill the form to unlock salary graphs")
-
-st.markdown("---")
-st.caption("🚀 Created with ❤️ using Streamlit • Powered by Machine Learning")
-
-# Remove any existing tunnels
-#from pyngrok import ngrok
-ngrok.kill()
-
-# Start tunnel
-public_url = ngrok.connect("http://localhost:8501")
-print("✅ App is live at:", public_url)
