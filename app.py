@@ -209,22 +209,19 @@ plt.show()
 # Commented out IPython magic to ensure Python compatibility.
 # %%writefile app.py
 import streamlit as st
-import pandas as pd
-import numpy as np
 import joblib
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Load trained model
 model = joblib.load("final_salary_model.pkl")
 
-# Page setup
 st.set_page_config(page_title="AI Salary Predictor", layout="wide", page_icon="💰")
 
-# Background CSS
 st.markdown(
     """
     <style>
     .stApp {
-        background-image: url("images.jpeg");
+        background-image: url("/content/images.jpeg");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -244,30 +241,26 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Title
-st.markdown("<div class='title-style'>💼 Employee Salary Predictor</div>", unsafe_allow_html=True)
+st.markdown("<div class='title-style'>💼Employee Salary Predictor</div>", unsafe_allow_html=True)
 st.write("### Predict whether an employee earns >50K or <=50K using ML (based on Indian census-style data)")
 
-# Layout columns
 left, center, right = st.columns([1.2, 2.5, 1.5])
 
-# ------------ LEFT PANEL ------------
 with left:
     st.markdown("### 🔍 Model Details")
     st.markdown("""
-    - Dataset: Modeled after Indian Census Income Data  
-    - Algorithm: Random Forest Classifier  
-    - Accuracy: ~88%  
-    - Input Features Used:  
-        - Age, Gender, Education, Occupation  
-        - Capital Gain/Loss, Hours/Week  
-        - Marital Status, Relationship, Country  
+    - Dataset: Modeled after Indian Census Income Data
+    - Algorithm: Random Forest Classifier
+    - Accuracy: ~88%
+    - Input Features Used:
+        - Age, Gender, Education, Occupation
+        - Capital Gain/Loss, Hours/Week
+        - Marital Status, Relationship, Country
     """)
-    st.image("download.jpeg", width=120)
+    st.image("/bin/download.jpeg", width=120)
     st.markdown("---")
     st.markdown("📌 **Suggestion:** Upskill, take leadership roles, and invest in higher education.")
 
-# ------------ CENTER PANEL (FORM) ------------
 with center:
     with st.form("salary_form"):
         st.markdown("## 👤 Employee Information")
@@ -285,13 +278,11 @@ with center:
         submitted = st.form_submit_button("🔎 Predict Salary")
 
         if submitted:
-            # Encode categorical inputs
             gender_dict = {"Male": 1, "Female": 0}
             education_dict = {"10th": 6, "12th": 8, "Bachelors": 13, "Masters": 14, "PhD": 16}
             occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
             country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
 
-            # Dummy values for non-user inputs
             marital_status = 2
             relationship = 1
             race = 1
@@ -299,12 +290,10 @@ with center:
             workclass = 4
             fnlwgt = 200000
 
-            features = np.array([[age, workclass, fnlwgt,
-                                  education_dict[education], marital_status,
-                                  occupation_dict[occupation], relationship,
-                                  race, gender_dict[gender_input],
-                                  capital_gain, capital_loss, hours,
-                                  country_dict[native_country], extra_feature]])
+            features = np.array([[age, workclass, fnlwgt, education_dict[education],
+                                  marital_status, occupation_dict[occupation], relationship,
+                                  race, gender_dict[gender_input], capital_gain, capital_loss,
+                                  hours, country_dict[native_country], extra_feature]])
 
             prediction = model.predict(features)[0]
             label = ">50K" if prediction == 1 else "<=50K"
@@ -314,16 +303,14 @@ with center:
             st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
             st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
 
-# ------------ RIGHT PANEL (CHARTS) ------------
 with right:
     st.markdown("### 📊 Visual Insights")
+
     if submitted:
-        # Salary trend chart
         salary_trend = [monthly_salary + np.random.randint(-2000, 2000) for _ in range(6)]
         st.markdown("#### 📈 6-Month Salary Projection")
         st.line_chart(salary_trend)
 
-        # Bar chart for occupation salary
         st.markdown("#### 💼 Avg. Monthly Salary by Role")
         st.bar_chart({
             "Clerical": 22000,
@@ -335,6 +322,15 @@ with right:
     else:
         st.info("👈 Fill the form to unlock salary graphs")
 
-# ------------ FOOTER ------------
 st.markdown("---")
 st.caption("🚀 Created with ❤️ using Streamlit • Powered by Machine Learning")
+
+#!pip install streamlit pyngrok
+
+from pyngrok import ngrok
+ngrok.kill()
+
+#!streamlit run app.py &>/dev/null &
+
+public_url = ngrok.connect("http://localhost:8501")
+print("✅ App is live at:", public_url)
