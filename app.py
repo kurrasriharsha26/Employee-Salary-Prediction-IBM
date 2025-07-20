@@ -4,21 +4,20 @@ import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 
-# Load the trained model and components
+# Load model artifacts
 model_data = joblib.load("salary_predictor.pkl")
 model = model_data["model"]
 scaler = model_data["scaler"]
-feature_names = model_data["feature_names"]  # assumed this is a list of column names
+feature_names = model_data["feature_names"]  # expected to be a list of 14 features
 
-# Define encoding mappings
+# Encoding dictionaries
 gender_dict = {"Male": 1, "Female": 0}
 education_dict = {"10th": 6, "12th": 8, "Bachelors": 13, "Masters": 14, "PhD": 16}
 occupation_dict = {"Clerical": 2, "Technical": 1, "Managerial": 4, "Sales": 3, "Other": 0}
 country_dict = {"India": 39, "USA": 0, "Canada": 1, "Germany": 2, "Other": 3}
 
-# Streamlit page setup
+# Streamlit UI
 st.set_page_config(page_title="AI Salary Predictor", layout="wide")
-
 st.markdown("<h1 style='text-align: center;'>💼 Employee Salary Predictor</h1>", unsafe_allow_html=True)
 st.write("### Predict whether an employee earns >50K or <=50K based on census-style data")
 
@@ -31,10 +30,9 @@ with left:
     - Dataset: Modeled after Indian Census Income Data  
     - Algorithm: Random Forest Classifier  
     - Accuracy: ~88%  
-    - Features:  
-        - Age, Gender, Education, Occupation  
-        - Capital Gain/Loss, Hours/Week  
-        - Marital Status, Relationship, Country
+    - Features: Age, Gender, Education, Occupation  
+    - Capital Gain/Loss, Hours/Week  
+    - Marital Status, Relationship, Country, etc.
     """)
     st.markdown("📌 Suggestion: Upskill, take leadership roles, invest in higher education.")
 
@@ -56,55 +54,57 @@ with center:
 
 # Process input and predict
 if submitted:
-    # These are fixed or default values used during initial training
+    # Static values used during training
+    workclass = 4
+    fnlwgt = 200000
     marital_status = 2
     relationship = 1
     race = 1
-    extra_feature = 1
-    workclass = 4
-    fnlwgt = 200000
+    extra_feature = 1  # included as 14th feature
 
-    # Create feature array
+    # Build feature array (14 features)
     features = np.array([[age, workclass, fnlwgt, education_dict[education],
                           marital_status, occupation_dict[occupation], relationship,
                           race, gender_dict[gender_input], capital_gain, capital_loss,
                           hours, country_dict[native_country], extra_feature]])
 
-    # ✅ Fix: make sure input DataFrame has same columns as during training
-    input_df = pd.DataFrame(features, columns=feature_names)
+    # Validate feature length
+    if len(feature_names) != features.shape[1]:
+        st.error(f"⚠️ Feature mismatch! Expected {len(feature_names)} features, got {features.shape[1]}.")
+    else:
+        # Proper DataFrame format
+        input_df = pd.DataFrame(features, columns=feature_names)
+        input_scaled = scaler.transform(input_df)
 
-    # Scale and predict
-    input_scaled = scaler.transform(input_df)
-    prediction = model.predict(input_scaled)[0]
+        # Prediction
+        prediction = model.predict(input_scaled)[0]
+        label = ">50K" if prediction == 1 else "<=50K"
+        monthly_salary = 60000 if prediction == 1 else 25000
 
-    label = ">50K" if prediction == 1 else "<=50K"
-    monthly_salary = 60000 if prediction == 1 else 25000
+        st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
+        st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
+        st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
 
-    st.success(f"💡 {name}'s Predicted Income Class: **{label}**")
-    st.info(f"💰 Estimated Monthly Salary: ₹{monthly_salary:,}")
-    st.info(f"📅 Estimated Annual Salary: ₹{monthly_salary * 12:,}")
+        # RIGHT COLUMN - Visuals
+        with right:
+            st.markdown("### 📊 Visual Insights")
 
-    # RIGHT SIDE GRAPHS
-    with right:
-        st.markdown("### 📊 Visual Insights")
+            # Simulated salary trend
+            salary_trend = [monthly_salary + np.random.randint(-2000, 2000) for _ in range(6)]
+            st.markdown("#### 📈 6-Month Salary Projection")
+            st.line_chart(salary_trend)
 
-        salary_trend = [monthly_salary + np.random.randint(-2000, 2000) for _ in range(6)]
-        st.markdown("#### 📈 6-Month Salary Projection")
-        st.line_chart(salary_trend)
-
-        st.markdown("#### 💼 Avg. Monthly Salary by Role")
-        st.bar_chart({
-            "Clerical": 22000,
-            "Technical": 35000,
-            "Managerial": 65000,
-            "Sales": 30000,
-            "Other": 28000
-        })
-
+            st.markdown("#### 💼 Avg. Monthly Salary by Role")
+            st.bar_chart({
+                "Clerical": 22000,
+                "Technical": 35000,
+                "Managerial": 65000,
+                "Sales": 30000,
+                "Other": 28000
+            })
 else:
     with right:
         st.info("👈 Fill the form to unlock salary graphs.")
 
-# Footer
 st.markdown("---")
 st.caption("🚀 Created with ❤️ using Streamlit • Powered by ML")
