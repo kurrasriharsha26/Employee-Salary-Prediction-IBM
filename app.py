@@ -15,10 +15,10 @@ import pickle  # ✅ Replaced joblib with pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ✅ Load model using pickle for better compatibility
-import joblib
+import pickle
 
-model = joblib.load("adult_income_model_compressed.pkl")
+with open("adult_income_model_compressed.pkl", "rb") as f:
+    model = pickle.load(f)
 
 
 # Streamlit UI Setup
