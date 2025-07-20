@@ -25,7 +25,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from xgboost import XGBClassifier
 
 # Load dataset
-data = pd.read_csv(r"/content/adult3.csv")
+data = pd.read_csv(r"adult3.csv")
 
 """# New section"""
 
