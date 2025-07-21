@@ -21,7 +21,7 @@ lottie_cash = load_lottieurl(cash_lottie_url)
 col1, col2 = st.columns([1, 2])  # You can adjust the ratio
 
 with col1:
-    st_lottie(lottie_cash, width=120, height=120, speed=1, loop=True)
+    st_lottie(lottie_cash, width=120, height=150, speed=1, loop=True)
 
 with col2:
     st.markdown("""
