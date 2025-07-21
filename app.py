@@ -6,37 +6,42 @@ import streamlit as st
 from streamlit_lottie import st_lottie
 import requests
 
+# Load Lottie animation from URL
 def load_lottieurl(url: str):
     r = requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
 
-# Example cash animation from LottieFiles (replace with your preferred one)
+# Lottie animation URL
 cash_lottie_url = "https://assets8.lottiefiles.com/packages/lf20_jcikwtux.json"
 lottie_cash = load_lottieurl(cash_lottie_url)
 
-st.markdown(
-    '<div style="position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:0; pointer-events:none; display:flex; align-items:center; justify-content:center; opacity:0.33;">',
-    unsafe_allow_html=True
-)
-st_lottie(lottie_cash, width=400, height=400, speed=1, loop=True)
-st.markdown("</div>", unsafe_allow_html=True)
+# Combine the animation and instructions in the same field
 with st.container():
     st.markdown("""
     <div style="background: #f0f8ff;
                 border-left: 5px solid #2a5298;
                 padding: 16px 24px;
-                border-radius: 8px;">
-        <h4>🧭 How This Works</h4>
-        <ol>
-            <li>Fill the employee information form</li>
-            <li>Click “Predict Salary”</li>
-            <li>See your result and salary insights instantly</li>
-        </ol>
-        <span style="font-size:14px;color:#6497b1;">
-            Predictions use a trained machine learning model based on your selected fields.
-        </span>
+                border-radius: 8px;
+                display: flex;
+                align-items: center;">
+        <div style="flex: 0 0 120px; margin-right: 24px;">
+    """, unsafe_allow_html=True)
+    st_lottie(lottie_cash, width=100, height=100, speed=1, loop=True)
+    st.markdown("""
+        </div>
+        <div style="flex: 1;">
+            <h4>🧭 How This Works</h4>
+            <ol>
+                <li>Fill out the employee information</li>
+                <li>Click “🔎 Predict Salary”</li>
+                <li>View the salary class and estimated income 💰</li>
+            </ol>
+            <p style="font-size:14px;color:#6497b1;">
+                This prediction is based on machine learning trained on salary data.
+            </p>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
