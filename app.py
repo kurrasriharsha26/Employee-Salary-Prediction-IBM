@@ -4,6 +4,8 @@ import numpy as np
 import joblib
 import streamlit as st
 
+body, .stApp, #root {
+   
 st.markdown(
     """
     <style>
