@@ -7,14 +7,42 @@ import streamlit as st
 st.markdown(
     """
     <style>
-    /* Main background color */
     .stApp {
-        background-color: #F0F8FF;
+        background: radial-gradient(circle at 30% 30%, #F0F8FF 60%, #e6e6fa 100%);
+        animation: circulateBG 15s linear infinite;
+        background-size: 150% 150%;
+    }
+    @keyframes circulateBG {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }    
+    /* Optional: Add floating particles using pseudo-elements */
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        pointer-events: none;
+        background: url('https://assets.codepen.io/1462889/floating-particles.svg');
+        opacity: 0.4;
+        animation: floatParticles 30s linear infinite;
+        z-index: 0;
+    }
+    @keyframes floatParticles {
+        0% {background-position: 0 0;}
+        100% {background-position: 300px 600px;}
     }
     </style>
     """,
     unsafe_allow_html=True
 )
+
 
 
 
