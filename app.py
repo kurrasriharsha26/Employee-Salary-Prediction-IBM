@@ -3,6 +3,25 @@ import pandas as pd
 import numpy as np
 import joblib
 import streamlit as st
+from streamlit_lottie import st_lottie
+import requests
+
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
+
+# Example cash animation from LottieFiles (replace with your preferred one)
+cash_lottie_url = "https://assets8.lottiefiles.com/packages/lf20_jcikwtux.json"
+lottie_cash = load_lottieurl(cash_lottie_url)
+
+st.markdown(
+    '<div style="position:fixed; left:0; top:0; width:100vw; height:100vh; z-index:0; pointer-events:none; display:flex; align-items:center; justify-content:center; opacity:0.33;">',
+    unsafe_allow_html=True
+)
+st_lottie(lottie_cash, width=400, height=400, speed=1, loop=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 
 # Inject animated circulating background using CSS
