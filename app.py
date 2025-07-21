@@ -22,6 +22,24 @@ st.markdown(
 )
 st_lottie(lottie_cash, width=400, height=400, speed=1, loop=True)
 st.markdown("</div>", unsafe_allow_html=True)
+with st.container():
+    st.markdown("""
+    <div style="background: #f0f8ff;
+                border-left: 5px solid #2a5298;
+                padding: 16px 24px;
+                border-radius: 8px;">
+        <h4>🧭 How This Works</h4>
+        <ol>
+            <li>Fill the employee information form</li>
+            <li>Click “Predict Salary”</li>
+            <li>See your result and salary insights instantly</li>
+        </ol>
+        <span style="font-size:14px;color:#6497b1;">
+            Predictions use a trained machine learning model based on your selected fields.
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+
 
 
 # Inject animated circulating background using CSS
