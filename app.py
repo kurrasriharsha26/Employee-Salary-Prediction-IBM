@@ -17,20 +17,21 @@ def load_lottieurl(url: str):
 cash_lottie_url = "https://assets8.lottiefiles.com/packages/lf20_jcikwtux.json"
 lottie_cash = load_lottieurl(cash_lottie_url)
 
-# Create two columns: left for animation, right for instructions
-col1, col2 = st.columns([1, 2])  # You can adjust the ratio
+# Main display: Animation (left), Welcome & instructions (right)
+col1, col2 = st.columns([1.4, 2])
 
 with col1:
-    st_lottie(lottie_cash, width=120, height=190, speed=1, loop=True)
+    st_lottie(lottie_cash, width=320, height=320, speed=1, loop=True)
 
 with col2:
     st.markdown("""
     <div style="background: #f0f8ff;
                 border-left: 5px solid #2a5298;
-                padding: 16px 24px;
-                border-radius: 8px;">
-        <h4>🧭 How This Works</h4>
-        <ol>
+                padding: 28px 28px 24px 28px;
+                border-radius: 10px;">
+        <h2 style="color:#184693; margin-bottom: 10px;">👋 Welcome to Employee Salary Predictor</h2>
+        <h4 style="margin-top: 18px;">🧭 How This Works</h4>
+        <ol style="font-size:17px; color:#3a5683;">
             <li>Fill out the employee information</li>
             <li>Click “🔎 Predict Salary”</li>
             <li>View the salary class and estimated income 💰</li>
