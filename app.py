@@ -21,7 +21,7 @@ lottie_cash = load_lottieurl(cash_lottie_url)
 col1, col2 = st.columns([1.4, 2])
 
 with col1:
-    st_lottie(lottie_cash, width=300, height=320, speed=1, loop=True)
+    st_lottie(lottie_cash, width=280, height=320, speed=1, loop=True)
 
 with col2:
     st.markdown("""
