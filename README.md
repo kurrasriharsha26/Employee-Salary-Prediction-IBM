@@ -96,6 +96,9 @@ If you like this project, consider:
 Giving a ⭐️ on GitHub
 Sharing it with friends
 Forking it and building your own improvements!
+ Future Improvements can includes:
+ 1.AI prediction with direct connections with employees
+ 2.AI prediction can daily predictions.
 
 📄 License
 This project is for educational and internship purposes. All rights reserved by the author.
