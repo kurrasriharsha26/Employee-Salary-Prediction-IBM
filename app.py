@@ -146,4 +146,4 @@ else:
         st.info("👈 Fill the form to unlock salary graphs.")
 
 st.markdown("---")
-st.caption("🚀 Created with ❤️ using Streamlit • Powered by ML")
+st.caption("🚀 Created with ❤️ using Streamlit. • Powered by ML")
