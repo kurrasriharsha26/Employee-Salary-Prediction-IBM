@@ -1,9 +1,8 @@
 📊 Employee Salary Predictor using AI/ML (Streamlit App-Cloud)
 
-
 A machine learning-based web app to predict whether an employee earns more than ₹50K or less than ₹50K annually, based on demographic and professional features — inspired by the Indian Census dataset.
 
-🔗 Live Demo
+To Login and check the working model:
 👉 Click here to try the app ("https://employee-salary-prediction-ibm-oujclshorpofbckc8jcrct.streamlit.app/")
 
 📌 Features
